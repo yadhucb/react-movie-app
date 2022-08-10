@@ -1,38 +1,125 @@
-.App {
-  text-align: center;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  /* overflow-x: hidden; */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  color: #fff;
+  background-color: #3e3c3c;
+  ;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.banner {
+  position: relative;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 70vh;
+  width: 100%;
+
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.posters {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  overflow-x: hidden;
+}
+
+.poster {
+  transition: all .5s ease-out;
+  height: 300px;
+}
+
+.poster:hover {
+  transform: scale(1.1);
+
+}
+
+.mySwiper {
+  height: 200px;
+}
+
+.poster {
+  max-height: 300px;
+  overflow-x: hidden;
+
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #3e3c3c;
+  ;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.mySwiper::-webkit-scrollbar {
+  display: none;
+}
+
+.video {
+  width: 100%;
+}
+
+.category {
+  min-width: 150px;
+  min-height: 150px;
+
+}
+
+
+/* ====== mobile ======== */
+
+@media (max-width: 767px) {
+  .banner {
+    height: 25vh;
   }
-  to {
-    transform: rotate(360deg);
+
+  .row {
+    --bs-gutter-x: 0;
+  }
+
+  .poster:hover {
+    transform: none;
+
+  }
+
+  .movie-grid {
+    width: 100% !important;
+    height: auto;
+    overflow-x: hidden;
   }
 }
