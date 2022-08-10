@@ -21,7 +21,6 @@ const Category = ({ setMovies }) => {
 
     }, [])
     function handleCategory(category) {
-        'https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY_HERE}&with_genres=28'
         axios.get(`discover/movie?api_key=${API_KEY}&language=en-US&with_genres=${category.id}`).then((resp) => {
             setMovies(resp.data.results)
         })

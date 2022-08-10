@@ -7,7 +7,6 @@ import Loading from './Loading';
 const MovieGrid = ({ movies }) => {
     const [videoId, setVideoId] = useState()
     const [movieDetails, setMovieDetails] = useState()
-    const [loading, setLoading] = useState(false)
     const [loadingVideo, setLoadingVideo] = useState(false)
 
     function movieHandle(movie) {
@@ -56,7 +55,7 @@ const MovieGrid = ({ movies }) => {
                 {movies.map((movie, index) => {
                     return (
                         <>
-                            {loading ? <Loading /> : movie.backdrop_path &&
+                            {movie.backdrop_path &&
                                 <div className='col-6 col-lg-2 p-2 m-0' key={movie.id}>
 
                                     <a href='#video'>

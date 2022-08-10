@@ -1,4 +1,3 @@
-import { height } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import axios from '../axios'
 import { API_KEY, imageUrl } from '../constants/constants'
