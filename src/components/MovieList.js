@@ -18,6 +18,7 @@ const MovieList = ({ query, title, type }) => {
     const [videoId, setVideoId] = useState()
     const [movieDetails, setMovieDetails] = useState()
     const [loading, setLoading] = useState(false)
+    const [loadingVideo, setLoadingVideo] = useState(false)
     useEffect(() => {
         setLoading(true)
         axios.get(`${type}/${query}?api_key=${API_KEY}&language=en-US&page=${Math.floor(Math.random() * 11)}`).then((resp) => {
@@ -27,12 +28,12 @@ const MovieList = ({ query, title, type }) => {
 
     }, [])
     function movieHandle(movie) {
-        setLoading(true)
+        setLoadingVideo(true)
 
         axios.get(`movie/${movie.id}/videos?api_key=${API_KEY}&language=en-US`).then((resp) => {
             setVideoId(resp.data.results[0].key)
             setMovieDetails(movie)
-            setLoading(false)
+            setLoadingVideo(false)
         })
     }
 
@@ -49,7 +50,7 @@ const MovieList = ({ query, title, type }) => {
     return (
         <div className='ms-2'>
             <h4 className='px-3 mt-3'>{title}</h4>
-            {loading ? <Loading /> : videoId &&
+            {loadingVideo ? <Loading /> : videoId &&
                 <div className="row">
                     <div className="col-lg-6">
                         <YouTube videoId={videoId} opts={opts} className='video ' />

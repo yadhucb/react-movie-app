@@ -8,14 +8,15 @@ const MovieGrid = ({ movies }) => {
     const [videoId, setVideoId] = useState()
     const [movieDetails, setMovieDetails] = useState()
     const [loading, setLoading] = useState(false)
+    const [loadingVideo, setLoadingVideo] = useState(false)
 
     function movieHandle(movie) {
-        setLoading(true)
+        setLoadingVideo(true)
 
         axios.get(`movie/${movie.id}/videos?api_key=${API_KEY}&language=en-US`).then((resp) => {
             setVideoId(resp.data.results[0].key)
             setMovieDetails(movie)
-            setLoading(false)
+            setLoadingVideo(false)
         })
     }
 
@@ -32,7 +33,7 @@ const MovieGrid = ({ movies }) => {
     return (
         <div className='mb-3'>
             <h4 className='px-3'></h4>
-            {loading ? <Loading /> : videoId &&
+            {loadingVideo ? <Loading /> : videoId &&
                 <div className="row bg-dark" id='video'>
 
                     <div className="col-lg-6">

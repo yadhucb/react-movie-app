@@ -9,6 +9,7 @@ const Search = ({ search }) => {
     const [videoId, setVideoId] = useState()
     const [movieDetails, setMovieDetails] = useState()
     const [loading, setLoading] = useState(false)
+    const [loadingVideo, setLoadingVideo] = useState(false)
     useEffect(() => {
         setLoading(true)
         axios.get(`search/movie?api_key=${API_KEY}&query=${search}&page=1&include_adult=false`).then((resp) => {
@@ -19,12 +20,12 @@ const Search = ({ search }) => {
 
 
     function movieHandle(movie) {
-        setLoading(true)
+        setLoadingVideo(true)
 
         axios.get(`movie/${movie.id}/videos?api_key=${API_KEY}&language=en-US`).then((resp) => {
             setVideoId(resp.data.results[0].key)
             setMovieDetails(movie)
-            setLoading(false)
+            setLoadingVideo(false)
         })
     }
     const opts = {
@@ -37,7 +38,7 @@ const Search = ({ search }) => {
     };
     return (
         <div className="">
-            {loading ? <Loading /> : videoId &&
+            {loadingVideo ? <Loading /> : videoId &&
                 <div className="row" id='video'>
                     <div className="col-lg-6">
                         <YouTube videoId={videoId} opts={opts} className='video ' />
