@@ -37,7 +37,7 @@ const Category = ({ setMovies }) => {
                     breakpoints={{
                         767: { slidesPerView: 6.5 },
                     }}
-                    spaceBetween={2}
+                    spaceBetween={10}
                     freeMode={true}
                     modules={[FreeMode]}
                     className="mySwiper"

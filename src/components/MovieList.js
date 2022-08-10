@@ -11,24 +11,28 @@ import "swiper/css/pagination";
 // import required modules
 import { FreeMode } from "swiper";
 import YouTube from 'react-youtube';
+import Loading from './Loading';
 
 const MovieList = ({ query, title, type }) => {
     const [movies, setMovies] = useState([])
     const [videoId, setVideoId] = useState()
     const [movieDetails, setMovieDetails] = useState()
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
+        setLoading(true)
         axios.get(`${type}/${query}?api_key=${API_KEY}&language=en-US&page=${Math.floor(Math.random() * 11)}`).then((resp) => {
-
             setMovies(resp.data.results)
-
+            setLoading(false)
         })
 
     }, [])
     function movieHandle(movie) {
+        setLoading(true)
 
         axios.get(`movie/${movie.id}/videos?api_key=${API_KEY}&language=en-US`).then((resp) => {
             setVideoId(resp.data.results[0].key)
             setMovieDetails(movie)
+            setLoading(false)
         })
     }
 
@@ -45,7 +49,7 @@ const MovieList = ({ query, title, type }) => {
     return (
         <div className='ms-2'>
             <h4 className='px-3 mt-3'>{title}</h4>
-            {videoId &&
+            {loading ? <Loading /> : videoId &&
                 <div className="row">
                     <div className="col-lg-6">
                         <YouTube videoId={videoId} opts={opts} className='video ' />
@@ -76,7 +80,7 @@ const MovieList = ({ query, title, type }) => {
                     {movies && movies.map((movie, index) => {
                         return (
                             <div key={index}>
-                                {movie.backdrop_path &&
+                                {loading ? <Loading /> : movie.backdrop_path &&
                                     <SwiperSlide>
                                         <img className='poster' role='button' alt='poster' src={`${imageUrl + movie.backdrop_path}`}
                                             onClick={() => movieHandle(movie)}
