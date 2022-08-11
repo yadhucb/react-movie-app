@@ -11,9 +11,9 @@ const Banner = () => {
     }, [])
 
     return (
-        <div className='banner' style={{ backgroundImage: `linear-gradient(180deg, transparent, rgba(37, 37, 37, .61), #111), url(${imageUrl + movie.backdrop_path})` }}>
+        <div className='banner' style={{ backgroundImage: `linear-gradient(180deg, transparent, rgba(37, 37, 37, .61), #111), url(${imageUrl}/original${movie.backdrop_path})` }}>
             <div className='content text-light p-3' >
-                <h4 className=''>{movie.title}</h4>
+                <h5 className=''>{movie.title}</h5>
                 <p className='d-none d-lg-block'>{movie.overview}</p>
             </div>
             <div className="fade_bottom"></div>

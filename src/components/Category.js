@@ -11,13 +11,15 @@ import "swiper/css/pagination";
 // import required modules
 import { FreeMode } from "swiper";
 
-const Category = ({ setMovies }) => {
+const Category = ({ setMovies, setLoading }) => {
 
     const [category, setCategory] = useState([])
     useEffect(() => {
+        setLoading(true)
         axios.get(`genre/movie/list?api_key=${API_KEY}&language=en-US&page=1`).then((resp) => {
             setCategory(resp.data.genres)
         })
+        setLoading(false)
 
     }, [])
     function handleCategory(category) {

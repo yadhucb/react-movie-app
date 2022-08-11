@@ -13,15 +13,35 @@ import { FreeMode } from "swiper";
 import YouTube from 'react-youtube';
 import Loading from './Loading';
 
+import Dialog from '@mui/material/Dialog';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const MovieList = ({ query, title, type }) => {
     const [movies, setMovies] = useState([])
     const [videoId, setVideoId] = useState()
     const [movieDetails, setMovieDetails] = useState()
     const [loading, setLoading] = useState(false)
     const [loadingVideo, setLoadingVideo] = useState(false)
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     useEffect(() => {
         setLoading(true)
-        axios.get(`${type}/${query}?api_key=${API_KEY}&language=en-US&page=${Math.floor(Math.random() * 11)}`).then((resp) => {
+        axios.get(`${type}/${query}?api_key=${API_KEY}&language=en-US&w=5&page=${Math.floor(Math.random() * 11)}`).then((resp) => {
             setMovies(resp.data.results)
             setLoading(false)
         })
@@ -50,22 +70,45 @@ const MovieList = ({ query, title, type }) => {
     return (
         <div className='ms-2'>
             <h4 className='px-3 mt-3'>{title}</h4>
-            {loadingVideo ? <Loading /> : videoId &&
-                <div className="row">
-                    <div className="col-lg-6">
-                        <YouTube videoId={videoId} opts={opts} className='video ' />
-                    </div>
-                    <div className="col-lg-6">
-                        <h4>{movieDetails.title}</h4>
-                        <em>Language:{movieDetails.original_language}</em><br />
-                        <em>Popularity:{movieDetails.popularity} </em><br />
-                        <em>Release date:{movieDetails.release_date} </em>
-                        <hr />
-                        <p>{movieDetails.overview}</p>
-                    </div>
+            <Dialog
+                fullScreen
+                open={open}
+                onClose={handleClose}
+                TransitionComponent={Transition}
+            >
+                <AppBar sx={{ position: 'relative' }} color="inherit">
+                    <Toolbar>
 
-                </div>
-            }
+
+                        <IconButton
+
+                            color="inherit"
+                            onClick={handleClose}
+                            aria-label="close"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+
+
+                {loadingVideo ? <Loading /> : videoId ?
+                    <div className="bg-dark text-light" id='video'>
+                        <div className="">
+                            <YouTube videoId={videoId} opts={opts} className='video ' />
+                        </div>
+                        <div className=" p-2">
+                            <h4>{movieDetails.title}</h4>
+                            <em>Language:{movieDetails.original_language}</em><br />
+                            <em>Popularity:{movieDetails.popularity} </em><br />
+                            <em>Release date:{movieDetails.release_date} </em>
+                            <hr />
+                            <p>{movieDetails.overview}</p>
+                        </div>
+
+                    </div> : <h4 className='text-muted text-center mt-5'>No video available</h4>
+                }
+            </Dialog>
             <div className='posters'>
                 <Swiper
 
@@ -78,14 +121,18 @@ const MovieList = ({ query, title, type }) => {
                     modules={[FreeMode]}
                     className="mySwiper"
                 >
-                    {movies && movies.map((movie, index) => {
+                    {loading ? <Loading /> : movies && movies.map((movie, index) => {
                         return (
                             <div key={index}>
-                                {loading ? <Loading /> : movie.backdrop_path &&
-                                    <SwiperSlide>
-                                        <img className='poster' role='button' alt='poster' src={`${imageUrl + movie.backdrop_path}`}
-                                            onClick={() => movieHandle(movie)}
-                                        />
+                                {movie.backdrop_path &&
+                                    <SwiperSlide onClick={handleClickOpen} style={{ position: 'relative' }}>
+                                        <div onClick={handleClickOpen}>
+                                            <img className='poster' role='button' alt='poster' src={`${imageUrl}/w200${movie.backdrop_path}`}
+                                                onClick={() => movieHandle(movie)}
+
+                                            />
+                                        </div>
+                                        <h6 className='movie-title p-2 m-0' style={{ position: 'absolute' }}>{movie.title} </h6>
                                     </SwiperSlide>
                                 }
                             </div>

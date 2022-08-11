@@ -6,17 +6,17 @@ import MovieList from './MovieList'
 
 const Home = () => {
     const [movies, setMovies] = useState(false)
+    const [loading, setLoading] = useState(false)
     return (
         <div>
             <Banner />
-            <Category setMovies={setMovies} />
+            <Category setLoading={setLoading} setMovies={setMovies} />
             {movies ?
-                <MovieGrid movies={movies} />
+                <MovieGrid loading={loading} movies={movies} />
                 : <div className='mb-3'>
                     <MovieList type='movie' query='now_playing' title='Now Playing' />
                     <MovieList type='movie' query='popular' title='Popular' />
                     <MovieList type='movie' query='top_rated' title='Top Rated' />
-                    <MovieList type='tv' query='top_rated' title='Top Rated on TV' />
 
                 </div>
             }
